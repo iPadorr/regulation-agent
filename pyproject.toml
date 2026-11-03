@@ -1,0 +1,35 @@
+[project]
+name = "regulation-agent"
+version = "1.0.0"
+description = "建筑规范智能助手（基于尚硅谷智能问数项目改造的 RAG 应用）"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "sqlalchemy>=2.0",
+    "omegaconf>=2.3",
+    "pyyaml>=6.0",
+    "jinja2>=3.1",
+    "loguru>=0.7",
+    "openai>=1.12",
+    "jieba>=0.42",
+    "numpy>=1.24",
+    "pydantic>=2.0",
+    # 解析 PDF 时需要
+    "pypdf>=4.0",
+    # 使用 PostgreSQL + pgvector 路径时需要
+    "asyncpg>=0.29",
+    "pgvector>=0.2",
+    "greenlet>=3.5.5",
+]
+
+[project.optional-dependencies]
+pgsql = ["asyncpg>=0.29", "pgvector>=0.2"]
+dev = ["pytest", "httpx"]
+
+[tool.setuptools]
+packages = ["app"]
+
+[tool.uvicorn]
+host = "0.0.0.0"
+port = 8090

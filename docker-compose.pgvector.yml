@@ -1,0 +1,13 @@
+services:
+    pgvector:
+        image: pgvector/pgvector:pg18-trixie
+        container_name: pgvector
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: tang
+            POSTGRES_PASSWORD: 123321
+            POSTGRES_DB: regulation
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./data:/var/lib/postgresql

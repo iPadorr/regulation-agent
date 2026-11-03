@@ -1,0 +1,62 @@
+# 建筑规范智能助手配置文件
+
+# 规范文件（默认使用项目根目录下 regulations_src 中的 docx 高清版）
+regulation:
+  code: "GB 55037-2022"
+  name: "建筑防火通用规范"
+  file_path: "./regulations_src/建筑防火通用规范.docx"
+
+# RAG 检索后端
+#   local : 使用本地离线索引（默认，无需 Postgres）
+#   pgsql : 使用 PostgreSQL + pgvector（在app/core/db_service.py:_DDL，先建好库表）
+
+rag:
+  backend: local
+  top_k: 5
+  threshold: 0.2          # 向量相似度下限
+  weight_vec: 0.6         # 向量分数权重（0~1，剩余给全文）
+
+# 向量嵌入（用于 local 后端的 API 嵌入；未配置 KEY 时自动回退为本地哈希向量）
+vector_store:
+  enable: True
+  embedding_url: https://api.siliconflow.cn/v1
+  embedding_model: BAAI/bge-m3
+  embedding_api_key: ${env:SILICONFLOW_API_KEY}
+
+# PostgreSQL（pgsql backend 时使用）
+postgresql:
+  host: 127.0.0.1
+  port: 5432
+  user: tang
+  password: ${env:PASSWORD}
+  database: regulation
+
+# 日志
+logging:
+  level: INFO
+  console_output: true
+  file_output: true
+  log_dir: logs
+  max_file_size: 10MB
+
+# LLM 模型池
+llm:
+  rag_model: siliconflow_deepseek
+  models:
+    # 备用模型
+    # default:
+    #   base_url: https://openrouter.ai/api/v1
+    #   api_key: ${env:OPENROUTER_API_KEY}
+    #   model: openai/gpt-4o-mini
+    siliconflow_deepseek:
+      base_url: https://api.siliconflow.cn/v1
+      api_key: ${env:SILICONFLOW_API_KEY}
+      model: deepseek-ai/DeepSeek-V3.2-Exp
+    siliconflow_minimax:
+      base_url: https://api.siliconflow.cn/v1
+      api_key: ${env:SILICONFLOW_API_KEY}
+      model: MiniMaxAI/MiniMax-M2
+    siliconflow_glm:
+      base_url: https://api.siliconflow.cn/v1
+      api_key: ${env:SILICONFLOW_API_KEY}
+      model: zai-org/GLM-4.6
