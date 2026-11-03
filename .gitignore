@@ -50,3 +50,7 @@ Thumbs.db
 # Docker 运行时数据（PostgreSQL 数据卷，勿提交）
 # ----------------------------
 data/18/
+
+# 本地 RAG 索引缓存（运行时生成，换环境需重建）
+data/*.json
+data/*.npy
